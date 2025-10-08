@@ -5,6 +5,24 @@ import os
 from dotenv import load_dotenv
 from PIL import Image
 import io
+from bs4 import BeautifulSoup
+import pathlib
+
+GA_JS = """<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6795406112912342"
+     crossorigin="anonymous"></script>"""
+
+# Insert the script in the head tag of the static template inside your virtual environement
+index_path = pathlib.Path(st.__file__).parent / "static" / "index.html"
+soup = BeautifulSoup(index_path.read_text(), features="lxml")
+if not soup.find(id='custom-js'):
+    script_tag = soup.new_tag("script", id='custom-js')
+    script_tag.string = GA_JS
+    soup.head.append(script_tag)
+    index_path.write_text(str(soup))
+
+
+#-----------------------------------------------------------------------------------------------
+
 
 st.write("💸 후원 | 토스뱅크 1908-5007-2520")
 st.title("Chat Predicter 💭")
