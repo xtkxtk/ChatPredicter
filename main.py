@@ -13,7 +13,7 @@ GA_JS = """<script async src="https://pagead2.googlesyndication.com/pagead/js/ad
 
 # Insert the script in the head tag of the static template inside your virtual environement
 index_path = pathlib.Path(st.__file__).parent / "static" / "index.html"
-soup = BeautifulSoup(index_path.read_text(), features="lxml")
+soup = BeautifulSoup(index_path.read_text(), features="html.parser")
 if not soup.find(id='custom-js'):
     script_tag = soup.new_tag("script", id='custom-js')
     script_tag.string = GA_JS
